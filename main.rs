@@ -24,13 +24,7 @@ fn item_check(t: &Option<&Tree>) -> i32 {
 
 fn bottom_up_tree<'r>(arena: &'r Arena<Tree<'r>>, depth: i32) //function altered
                   -> Option<&'r Tree<'r>> {
-    if depth == 0 { //original code was 'if depth >= 0'
-        let t: &Tree<'r> = arena.alloc(Tree {
-            l: bottom_up_tree(arena, depth - 1),
-            r: bottom_up_tree(arena, depth - 1)
-        });
-        Some(t)
-    } else if depth > 0 {
+    if depth >= 0 { 
         let t: &Tree<'r> = arena.alloc(Tree {
             l: bottom_up_tree(arena, depth - 1),
             r: bottom_up_tree(arena, depth - 1)
@@ -59,7 +53,6 @@ fn main() {
         .unwrap_or(10);
     let min_depth = 4;
     let max_depth = if min_depth + 2 > n {min_depth + 2} else {n};
-
     {
         let arena = Arena::new();
         let depth = max_depth + 1;
@@ -68,7 +61,6 @@ fn main() {
         println!("stretch tree of depth {}\t check: {}",
                  depth, item_check(&tree));
     }
-
     let long_lived_arena = Arena::new();
     let long_lived_tree = bottom_up_tree(&long_lived_arena, max_depth);
 
