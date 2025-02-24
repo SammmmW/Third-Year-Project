@@ -43,10 +43,15 @@ fn bottom_up_tree<'r>(arena: &'r Arena<Tree<'r>>, depth: i32) //function altered
 
 fn inner(depth: i32, iterations: i32) -> String {
     let mut chk = 0;
-    for i in 1 .. iterations + 1 {
+    let mut i = 1; 
+    fn set_iterations(iter: i32) -> i32 {
+        iter
+    }
+    while i < set_iterations(iterations) + 1 { //modified code: was for loop, now changed to a while loop including loop invariance
         let arena = Arena::new();
         let a = bottom_up_tree(&arena, depth);
         chk += item_check(&a);
+        i = i + 1;
     }
     format!("{}\t trees of depth {}\t check: {}",
             iterations, depth, chk)
@@ -59,7 +64,6 @@ fn main() {
         .unwrap_or(10);
     let min_depth = 4;
     let max_depth = if min_depth + 2 > n {min_depth + 2} else {n};
-
     {
         let arena = Arena::new();
         let depth = max_depth + 1;
@@ -68,7 +72,6 @@ fn main() {
         println!("stretch tree of depth {}\t check: {}",
                  depth, item_check(&tree));
     }
-
     let long_lived_arena = Arena::new();
     let long_lived_tree = bottom_up_tree(&long_lived_arena, max_depth);
 
