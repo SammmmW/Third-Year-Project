@@ -1,1 +1,1 @@
-'Project' is the folder containing the files related to Rust.
+'Projects' is the folder containing the files related to Rust. The naming scheme wasn't being properly organised when they were made, and I've elected to keep them as they are so that the Bash scripts still point to the correct directories.
